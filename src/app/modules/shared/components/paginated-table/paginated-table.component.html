@@ -1,0 +1,212 @@
+<p-table
+  [value]="items()"
+  [loading]="loading()"
+  [paginator]="true"
+  [rows]="10"
+  [totalRecords]="totalPages()"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [rowsPerPageOptions]="[10, 20, 30]"
+  [selectionMode]="selectionMode()"
+  [(selection)]="selectedItems"
+  [lazy]="true"
+  (onLazyLoad)="loadEntities($event)"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <p-button icon="pi pi-refresh" />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      @if (tableSelection() === tableSelectionEnum.RADIOBUTTON) {
+        <th style="width: 4rem"></th>
+      } @else if (tableSelection() === tableSelectionEnum.CHECKBOX) {
+        <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+      }
+      @if (
+        rowActions() && rowActionsLocation() === rowActionLocationEnum.START
+      ) {
+        <th></th>
+      }
+      @for (column of columns(); track $index) {
+        <th>{{ column.name }}</th>
+      }
+      @if (rowActions() && rowActionsLocation() === rowActionLocationEnum.END) {
+        <th></th>
+      }
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-rowIndex>
+    @if (tableSelection() === tableSelectionEnum.SINGLE) {
+      <tr [pSelectableRow]="rowData">
+        @if (
+          rowActions() && rowActionsLocation() === rowActionLocationEnum.START
+        ) {
+          <td>
+            <div class="flex align-items-center justify-content-center">
+              @for (rowAction of rowActions(); track $index) {
+                <button
+                  pButton
+                  pRipple
+                  [type]="rowAction.btnType ?? 'button'"
+                  [label]="rowAction.btnLabel ?? ''"
+                  [icon]="rowAction.btnIcon ?? ''"
+                  [style]="rowAction.btnStyle ?? 'width: 2rem'"
+                  [class]="
+                    (rowAction.btnStyle ?? 'p-button-rounded p-button-text') +
+                    onBtnVisibleFunction(rowAction, rowData)
+                  "
+                  (click)="onRowActionClick(rowAction, rowData)"
+                ></button>
+              }
+            </div>
+          </td>
+        }
+        @for (column of columns(); track $index) {
+          <td>{{ rowData[column.field] }}</td>
+        }
+        @if (
+          rowActions() && rowActionsLocation() === rowActionLocationEnum.END
+        ) {
+          <td>
+            <div class="flex align-items-center justify-content-center">
+              @for (rowAction of rowActions(); track $index) {
+                <button
+                  pButton
+                  pRipple
+                  [type]="rowAction.btnType ?? 'button'"
+                  [label]="rowAction.btnLabel ?? ''"
+                  [icon]="rowAction.btnIcon ?? ''"
+                  [style]="rowAction.btnStyle ?? 'width: 2rem'"
+                  [class]="
+                    (rowAction.btnStyle ?? 'p-button-rounded p-button-text') +
+                    onBtnVisibleFunction(rowAction, rowData)
+                  "
+                  (click)="onRowActionClick(rowAction, rowData)"
+                ></button>
+              }
+            </div>
+          </td>
+        }
+      </tr>
+    } @else if (tableSelection() === tableSelectionEnum.MULTIPLE) {
+      <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+        @if (
+          rowActions() && rowActionsLocation() === rowActionLocationEnum.START
+        ) {
+          <td>
+            <div class="flex align-items-center justify-content-center">
+              @for (rowAction of rowActions(); track $index) {
+                <button
+                  pButton
+                  pRipple
+                  [type]="rowAction.btnType ?? 'button'"
+                  [label]="rowAction.btnLabel ?? ''"
+                  [icon]="rowAction.btnIcon ?? ''"
+                  [style]="rowAction.btnStyle ?? 'width: 2rem'"
+                  [class]="
+                    (rowAction.btnStyle ?? 'p-button-rounded p-button-text') +
+                    onBtnVisibleFunction(rowAction, rowData)
+                  "
+                  (click)="onRowActionClick(rowAction, rowData)"
+                ></button>
+              }
+            </div>
+          </td>
+        }
+        @for (column of columns(); track $index) {
+          <td>{{ rowData[column.field] }}</td>
+        }
+        @if (
+          rowActions() && rowActionsLocation() === rowActionLocationEnum.END
+        ) {
+          <td>
+            <div class="flex align-items-center justify-content-center">
+              @for (rowAction of rowActions(); track $index) {
+                <button
+                  pButton
+                  pRipple
+                  [type]="rowAction.btnType ?? 'button'"
+                  [label]="rowAction.btnLabel ?? ''"
+                  [icon]="rowAction.btnIcon ?? ''"
+                  [style]="rowAction.btnStyle ?? 'width: 2rem'"
+                  [class]="
+                    (rowAction.btnStyle ?? 'p-button-rounded p-button-text') +
+                    onBtnVisibleFunction(rowAction, rowData)
+                  "
+                  (click)="onRowActionClick(rowAction, rowData)"
+                ></button>
+              }
+            </div>
+          </td>
+        }
+      </tr>
+    } @else {
+      <tr>
+        @if (tableSelection() === tableSelectionEnum.RADIOBUTTON) {
+          <td>
+            <p-tableRadioButton [value]="rowData" />
+          </td>
+        } @else if (tableSelection() === tableSelectionEnum.CHECKBOX) {
+          <td>
+            <p-tableCheckbox [value]="rowData" />
+          </td>
+        }
+        @if (
+          rowActions() && rowActionsLocation() === rowActionLocationEnum.START
+        ) {
+          <td>
+            <div class="flex align-items-center justify-content-center">
+              @for (rowAction of rowActions(); track $index) {
+                <button
+                  pButton
+                  pRipple
+                  [type]="rowAction.btnType ?? 'button'"
+                  [label]="rowAction.btnLabel ?? ''"
+                  [icon]="rowAction.btnIcon ?? ''"
+                  [style]="rowAction.btnStyle ?? 'width: 2rem'"
+                  [class]="
+                    (rowAction.btnStyle ?? 'p-button-rounded p-button-text') +
+                    onBtnVisibleFunction(rowAction, rowData)
+                  "
+                  (click)="onRowActionClick(rowAction, rowData)"
+                ></button>
+              }
+            </div>
+          </td>
+        }
+        @for (column of columns(); track $index) {
+          <td>{{ rowData[column.field] }}</td>
+        }
+        @if (
+          rowActions() && rowActionsLocation() === rowActionLocationEnum.END
+        ) {
+          <td>
+            <div class="flex align-items-center justify-content-center">
+              @for (rowAction of rowActions(); track $index) {
+                <button
+                  pButton
+                  pRipple
+                  [type]="rowAction.btnType ?? 'button'"
+                  [label]="rowAction.btnLabel ?? ''"
+                  [icon]="rowAction.btnIcon ?? ''"
+                  [style]="rowAction.btnStyle ?? 'width: 2rem'"
+                  [class]="
+                    (rowAction.btnStyle ?? 'p-button-rounded p-button-text') +
+                    onBtnVisibleFunction(rowAction, rowData)
+                  "
+                  (click)="onRowActionClick(rowAction, rowData)"
+                ></button>
+              }
+            </div>
+          </td>
+        }
+      </tr>
+    }
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td>No data found</td>
+    </tr>
+  </ng-template>
+</p-table>
