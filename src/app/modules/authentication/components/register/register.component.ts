@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { RegisterRequest } from '../../../shared/model/requests/register-request';
 import { InputMaskModule } from 'primeng/inputmask';
+import { EmailUtils } from '../../../../utils/email-utils';
 
 @Component({
   selector: 'app-register',
@@ -42,7 +43,7 @@ export class RegisterComponent implements OnInit {
   public onCreate(): void {
     if (
       this.registerForm.valid &&
-      this.isValidEmail(this.registerForm.get('email')?.value)
+      EmailUtils.isValidEmail(this.registerForm.get('email')?.value)
     ) {
       this.authService.register(this.getRegisterRequest());
     }
@@ -55,12 +56,6 @@ export class RegisterComponent implements OnInit {
       company: ['test', Validators.required],
       phone: ['123-456-789', Validators.required],
     });
-  }
-
-  private isValidEmail(email: string): boolean {
-    const emailRegex =
-      /^(?=[A-Z])[A-Z0-9_\-\.]+@(?=(([A-Z0-9_\-]+\.)+))\1[A-Z]{2,4}$/i;
-    return emailRegex.test(email);
   }
 
   private getRegisterRequest(): RegisterRequest {
