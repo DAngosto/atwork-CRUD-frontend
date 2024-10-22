@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ViewChild } from '@angular/core';
 import { PaginatedTableComponent } from '../../../shared/components/paginated-table/paginated-table.component';
 import { EmployeeService } from '../../services/employee.service';
 import { TableColumn } from '../../../shared/model/table-column';
@@ -8,19 +8,30 @@ import { Employee } from '../../model/employee';
 import { TableRowAction } from '../../../shared/model/table-row-action';
 import { PrimeIcons } from 'primeng/api';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { ToolbarModule } from 'primeng/toolbar';
+import { CreateEmployeeDialogComponent } from '../dialogs/create-employee-dialog/create-employee-dialog.component';
 
 @Component({
   selector: 'app-employees-page',
   standalone: true,
-  imports: [PaginatedTableComponent, SplitButtonModule],
+  imports: [
+    PaginatedTableComponent,
+    SplitButtonModule,
+    ToolbarModule,
+    CreateEmployeeDialogComponent,
+  ],
   templateUrl: './employees-page.component.html',
   styleUrl: './employees-page.component.scss',
 })
 export class EmployeesPageComponent {
   public employeeService: EmployeeService = inject(EmployeeService);
 
+  @ViewChild('employeesPaginatedTable')
+  employeesPaginatedTable?: PaginatedTableComponent;
+
   public tableSelectionEnum = TableSelectionEnum;
   public selectedEmployees = signal<Employee[]>([]);
+  public showCreateEmployeeDialog = signal<boolean>(false);
   public employeesTableColumns: TableColumn[] = [
     {
       name: 'Image',
@@ -79,4 +90,12 @@ export class EmployeesPageComponent {
       },
     ];
   });
+
+  public onNew() {
+    this.showCreateEmployeeDialog.set(true);
+  }
+
+  public onCreationSuccesfully(creationSuccesfully: any) {
+    if (creationSuccesfully) this.employeesPaginatedTable?.refreshTable();
+  }
 }

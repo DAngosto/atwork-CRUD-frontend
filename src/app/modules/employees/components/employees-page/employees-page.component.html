@@ -8,28 +8,26 @@
           <div class="text-3xl font-medium text-900 mb-3">Team Overview</div>
         </div>
       </div>
-      <div class="flex mb-2 justify-content-between align-items-center">
-        <p-splitButton
-          icon="pi pi-cog"
-          [model]="getEmployeesSplitButtonModel()"
-        ></p-splitButton>
-        <button
-          pbutton=""
-          pripple=""
-          label="New"
-          icon="pi pi-plus"
-          class="p-element p-ripple p-button p-component"
-        >
-          <span
-            class="p-button-icon p-button-icon-left pi pi-plus"
-            aria-hidden="true"
-          ></span>
-          <span class="p-button-label">New</span>
-          <span class="p-ink"></span>
-        </button>
-      </div>
       <div class="border-2 surface-border">
+        <p-toolbar styleClass="mb-4 gap-2">
+          <ng-template pTemplate="left">
+            <p-button
+              severity="success"
+              label="New"
+              icon="pi pi-plus"
+              class="mr-2"
+              (onClick)="onNew()"
+            />
+            <p-button
+              severity="danger"
+              label="Delete"
+              icon="pi pi-trash"
+              [disabled]="selectedEmployees().length === 0"
+            />
+          </ng-template>
+        </p-toolbar>
         <app-paginated-table
+          #employeesPaginatedTable
           [dataService]="employeeService"
           [fetchMethod]="employeeService.getUserEmployees.bind(employeeService)"
           [columns]="employeesTableColumns"
@@ -41,3 +39,11 @@
     </div>
   </div>
 </div>
+
+<!-- Dialogs -->
+@if (showCreateEmployeeDialog()) {
+  <app-create-employee-dialog
+    [(showDialog)]="showCreateEmployeeDialog"
+    (creationSuccesfully)="onCreationSuccesfully($event)"
+  />
+}
