@@ -23,6 +23,7 @@
               label="Delete"
               icon="pi pi-trash"
               [disabled]="selectedEmployees().length === 0"
+              (onClick)="onDelete()"
             />
           </ng-template>
         </p-toolbar>

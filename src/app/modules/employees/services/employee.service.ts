@@ -42,4 +42,10 @@ export class EmployeeService {
       request,
     );
   }
+
+  public deleteEmployees(employeeIds: string[]): Observable<boolean> {
+    return this.httpClient.delete<boolean>(`${this.backendUrl}/Employees`, {
+      body: { employeeIds },
+    });
+  }
 }

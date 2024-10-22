@@ -6,7 +6,7 @@ import { TableColumnTypeEnum } from '../../../shared/model/table-column-type.enu
 import { TableSelectionEnum } from '../../../shared/model/table-selection.enum';
 import { Employee } from '../../model/employee';
 import { TableRowAction } from '../../../shared/model/table-row-action';
-import { PrimeIcons } from 'primeng/api';
+import { ConfirmationService, PrimeIcons } from 'primeng/api';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CreateEmployeeDialogComponent } from '../dialogs/create-employee-dialog/create-employee-dialog.component';
@@ -27,6 +27,7 @@ import { EditEmployeeDialogComponent } from '../dialogs/edit-employee-dialog/edi
 })
 export class EmployeesPageComponent {
   public employeeService: EmployeeService = inject(EmployeeService);
+  public confirmationService: ConfirmationService = inject(ConfirmationService);
 
   @ViewChild('employeesPaginatedTable')
   employeesPaginatedTable?: PaginatedTableComponent;
@@ -83,23 +84,42 @@ export class EmployeesPageComponent {
     },
     {
       btnIcon: PrimeIcons.TRASH,
-      btnActionFunction: (rowData: Employee) => {},
+      btnActionFunction: (rowData: Employee) => {
+        this.confirmationService.confirm({
+          message: `Do you want to delete employee: ${rowData.fullName}?`,
+          header: 'Delete Confirmation',
+          icon: 'pi pi-info-circle',
+          acceptButtonStyleClass: 'p-button-danger p-button-text',
+          rejectButtonStyleClass: 'p-button-text p-button-text',
+          acceptIcon: 'none',
+          rejectIcon: 'none',
+          accept: () => {
+            this.deleteEmployees([rowData.id]);
+          },
+          reject: () => {},
+        });
+      },
     },
   ];
 
-  public getEmployeesSplitButtonModel = computed(() => {
-    return [
-      {
-        label: 'Delete selected',
-        icon: PrimeIcons.TRASH,
-        disabled: this.selectedEmployees().length === 0,
-        command: () => {},
-      },
-    ];
-  });
-
   public onNew() {
     this.showCreateEmployeeDialog.set(true);
+  }
+
+  public onDelete() {
+    this.confirmationService.confirm({
+      message: `Do you want to delete selected employees?`,
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger p-button-text',
+      rejectButtonStyleClass: 'p-button-text p-button-text',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      accept: () => {
+        this.deleteEmployees(this.selectedEmployees().map((x) => x.id));
+      },
+      reject: () => {},
+    });
   }
 
   public onCreationSuccesfully(creationSuccesfully: any) {
@@ -108,5 +128,16 @@ export class EmployeesPageComponent {
 
   public onUpdateSuccesfully(updateSuccesfully: any) {
     if (updateSuccesfully) this.employeesPaginatedTable?.refreshTable();
+  }
+
+  private deleteEmployees(employeeIds: string[]): void {
+    this.employeeService.deleteEmployees(employeeIds).subscribe({
+      next: (_data: boolean) => {
+        this.employeesPaginatedTable?.refreshTable();
+      },
+      error: (e: any) => {
+        console.log(e);
+      },
+    });
   }
 }
