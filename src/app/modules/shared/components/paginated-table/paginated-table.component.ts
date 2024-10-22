@@ -112,6 +112,10 @@ export class PaginatedTableComponent implements OnDestroy {
     this.actualPage.set(event.first! / event.rows! + 1);
     this.loadData();
   }
+
+  public refreshTable(): void {
+    this.loadData();
+  }
   //#endregion Public
 
   //#region Private
