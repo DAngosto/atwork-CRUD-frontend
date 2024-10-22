@@ -127,6 +127,7 @@ export class PaginatedTableComponent implements OnDestroy {
           next: (response: any) => {
             this.items.set(response.data);
             this.totalPages.set(response.totalRecords);
+            this.selectedItems = [];
             this.loading.set(false);
           },
           error: (e: any) => {
