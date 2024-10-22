@@ -45,15 +45,15 @@ export class LoginComponent implements OnInit {
     ) {
       this.authService.login(
         this.signInForm.get('email')?.value,
-        this.signInForm.get('password')?.value
+        this.signInForm.get('password')?.value,
       );
     }
   }
 
   private initializeForm(): void {
     this.signInForm = this.fb.group({
-      email: [undefined, Validators.required],
-      password: [undefined, Validators.required],
+      email: ['test@gmail.com', Validators.required],
+      password: ['string', Validators.required],
     });
   }
 

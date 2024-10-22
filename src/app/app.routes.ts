@@ -4,8 +4,15 @@ import { LoginComponent } from './modules/authentication/components/login/login.
 import { RegisterComponent } from './modules/authentication/components/register/register.component';
 import { UnauthorizedComponent } from './modules/shared/components/unauthorized/unauthorized.component';
 import { EmployeesPageComponent } from './modules/employees/components/employees-page/employees-page.component';
+import { DashboardComponent } from './modules/dashboard/components/dashboard.component';
 
 export const routes: Routes = [
+  {
+    path: 'dashboard',
+    canActivate: [AuthenticationGuard],
+    canActivateChild: [AuthenticationGuard],
+    children: [{ path: '', component: DashboardComponent }],
+  },
   {
     path: 'employees',
     canActivate: [AuthenticationGuard],
@@ -15,6 +22,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'unauthorized', component: UnauthorizedComponent },
-  { path: '', redirectTo: '/employees', pathMatch: 'full' },
-  { path: '**', redirectTo: '/employees' },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '**', redirectTo: '/dashboard' },
 ];

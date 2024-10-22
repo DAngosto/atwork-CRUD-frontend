@@ -16,11 +16,13 @@ import { TableColumn } from '../../model/table-column';
 import { TableRowAction } from '../../model/table-row-action';
 import { TableRowActionLocationEnum } from '../../model/table-row-actions-location.enum';
 import { TableSelectionEnum } from '../../model/table-selection.enum';
+import { TableColumnTypeEnum } from '../../model/table-column-type.enum';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-paginated-table',
   standalone: true,
-  imports: [TableModule, CommonModule, ButtonModule],
+  imports: [TableModule, CommonModule, ButtonModule, AvatarModule],
   templateUrl: './paginated-table.component.html',
   styleUrl: './paginated-table.component.scss',
 })
@@ -40,6 +42,7 @@ export class PaginatedTableComponent implements OnDestroy {
   //#region Enums
   public rowActionLocationEnum = TableRowActionLocationEnum;
   public tableSelectionEnum = TableSelectionEnum;
+  public tableColumnTypeEnum = TableColumnTypeEnum;
   //#endregion Enums
 
   //#region Signals

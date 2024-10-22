@@ -1,0 +1,134 @@
+<div class="flex relative lg:static surface-ground">
+  <div
+    id="app-sidebar-1"
+    class="surface-section h-screen hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 surface-border select-none"
+    style="width: 280px"
+  >
+    <div class="flex flex-column h-full">
+      <div
+        class="flex align-items-center px-5 flex-shrink-0 cursor-pointer"
+        style="height: 60px"
+        [routerLink]="['']"
+      >
+        <img
+          src="https://media.licdn.com/dms/image/v2/D4D0BAQFnSz1eb7oVlQ/company-logo_200_200/company-logo_200_200/0/1715870722405/atwork_logo?e=2147483647&v=beta&t=jgxVF6Em_GLHCz_HHLRJcs3I1Jg6LeWX6WWzbpuNP2w"
+          alt="Image"
+          height="30"
+        />
+        <span class="font-medium text-2xl p-3">Atwork</span>
+      </div>
+      <div class="overflow-y-auto">
+        <ul class="list-none p-3 m-0">
+          <li>
+            <ul class="list-none p-0 m-0 overflow-hidden">
+              <li>
+                <a
+                  [routerLink]="['/dashboard']"
+                  pripple=""
+                  class="p-ripple no-underline p-element flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors"
+                  ><i class="pi pi-home mr-2"></i
+                  ><span class="font-medium">Dashboard</span
+                  ><span class="p-ink"></span
+                ></a>
+              </li>
+              <li>
+                <a
+                  [routerLink]="['/employees']"
+                  pripple=""
+                  class="p-ripple no-underline p-element flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors"
+                  ><i class="pi pi-users mr-2"></i
+                  ><span class="font-medium">Team</span
+                  ><span class="p-ink"></span
+                ></a>
+              </li>
+              <li>
+                <a
+                  pripple=""
+                  class="p-ripple no-underline p-element flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors"
+                  ><i class="pi pi-sign-out mr-2"></i
+                  ><span class="font-medium">Log Out</span
+                  ><span class="p-ink"></span
+                ></a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="mt-auto">
+        <hr class="mb-3 mx-3 border-top-1 border-none surface-border" />
+        <a
+          pripple=""
+          class="p-ripple p-element m-3 flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors"
+        >
+          @if (userData?.pictureUrl) {
+            <p-avatar
+              [image]="userData?.pictureUrl"
+              styleClass="mr-2"
+              size="normal"
+              shape="circle"
+            />
+          } @else {
+            <p-avatar
+              icon="pi pi-user"
+              size="normal"
+              shape="circle"
+              styleClass="mr-2"
+            />
+          }
+          <span class="font-medium">{{ userData?.email }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="min-h-screen flex flex-column relative flex-auto">
+    <div
+      class="flex justify-content-between align-items-center px-5 surface-0 border-bottom-1 surface-border relative lg:static"
+      style="height: 60px"
+    >
+      <div class="flex">
+        <a
+          pripple=""
+          pstyleclass="#app-sidebar-1"
+          enterclass="hidden"
+          enteractiveclass="fadeinleft"
+          leavetoclass="hidden"
+          leaveactiveclass="fadeoutleft"
+          class="p-ripple p-element cursor-pointer inline-flex align-items-center justify-content-center lg:hidden text-700 mr-3"
+          ><i class="pi pi-bars text-4xl"></i><span class="p-ink"></span
+        ></a>
+      </div>
+      <a
+        pripple=""
+        pstyleclass="@next"
+        enterclass="hidden"
+        enteractiveclass="fadein"
+        leavetoclass="hidden"
+        leaveactiveclass="fadeout"
+        class="p-ripple p-element cursor-pointer block lg:hidden text-700"
+        ><i class="pi pi-ellipsis-v text-2xl"></i><span class="p-ink"></span
+      ></a>
+      <ul
+        class="list-none p-0 m-0 hidden lg:flex lg:align-items-center select-none lg:flex-row surface-section border-1 lg:border-none surface-border right-0 top-100 z-1 shadow-2 lg:shadow-none absolute lg:static"
+      >
+        <li>
+          <a
+            (click)="logout()"
+            pripple=""
+            class="p-ripple p-element flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-duration-150 transition-colors"
+            ><i
+              pbadge=""
+              severity="danger"
+              class="p-element pi pi-sign-out text-base lg:text-2xl mr-2 lg:mr-0 p-overlay-badge"
+            ></i
+            ><span class="block lg:hidden font-medium">Log Out</span
+            ><span class="p-ink"></span
+          ></a>
+        </li>
+      </ul>
+    </div>
+    <div class="flex flex-column flex-auto">
+      <router-outlet />
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

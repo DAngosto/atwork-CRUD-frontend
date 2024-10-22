@@ -3,4 +3,5 @@ export enum TableColumnTypeEnum {
   CHECKBOX = 'checkbox',
   DATE = 'date',
   TAG = 'tag',
+  AVATAR = 'avatar',
 }

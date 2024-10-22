@@ -10,6 +10,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { RegisterRequest } from '../../../shared/model/requests/register-request';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @Component({
   selector: 'app-register',
@@ -20,6 +22,7 @@ import {
     ButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    InputMaskModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -41,17 +44,16 @@ export class RegisterComponent implements OnInit {
       this.registerForm.valid &&
       this.isValidEmail(this.registerForm.get('email')?.value)
     ) {
-      this.authService.register(
-        this.registerForm.get('email')?.value,
-        this.registerForm.get('password')?.value
-      );
+      this.authService.register(this.getRegisterRequest());
     }
   }
 
   private initializeForm(): void {
     this.registerForm = this.fb.group({
-      email: [undefined, Validators.required],
-      password: [undefined, Validators.required],
+      email: ['test@gmail.com', Validators.required],
+      password: ['test', Validators.required],
+      company: ['test', Validators.required],
+      phone: ['123-456-789', Validators.required],
     });
   }
 
@@ -59,5 +61,14 @@ export class RegisterComponent implements OnInit {
     const emailRegex =
       /^(?=[A-Z])[A-Z0-9_\-\.]+@(?=(([A-Z0-9_\-]+\.)+))\1[A-Z]{2,4}$/i;
     return emailRegex.test(email);
+  }
+
+  private getRegisterRequest(): RegisterRequest {
+    return {
+      email: this.registerForm.get('email')?.value,
+      password: this.registerForm.get('password')?.value,
+      company: this.registerForm.get('company')?.value,
+      phone: this.registerForm.get('phone')?.value,
+    } as RegisterRequest;
   }
 }

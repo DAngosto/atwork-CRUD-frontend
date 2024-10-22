@@ -12,6 +12,7 @@ import { Register } from '../model/register';
 })
 export class AuthService {
   private loggedIn: boolean = localStorage.getItem('userToken') !== null;
+  private userId: string = localStorage.getItem('userId') ?? '';
   private userRoles: string[] = [];
 
   private backendUrl: string = environment.backendUrl;
@@ -27,6 +28,8 @@ export class AuthService {
       .subscribe({
         next: (data: Login) => {
           localStorage.setItem('userToken', data.token);
+          localStorage.setItem('userId', data.userId);
+          this.userId = data.userId;
           this.loggedIn = true;
           this.router.navigate(['']);
         },
@@ -36,13 +39,14 @@ export class AuthService {
       });
   }
 
-  public register(email: string, password: string): void {
-    const request = { email: email, password: password } as RegisterRequest;
+  public register(request: RegisterRequest): void {
     this.httpClient
       .post<Register>(`${this.backendUrl}/Auth/register`, request)
       .subscribe({
         next: (data: Register) => {
           localStorage.setItem('userToken', data.token);
+          localStorage.setItem('userId', data.userId);
+          this.userId = data.userId;
           this.loggedIn = true;
           this.router.navigate(['']);
         },
@@ -53,8 +57,11 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.loggedIn = false;
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userId');
+    this.userId = '';
     this.userRoles = [];
+    this.loggedIn = false;
     this.router.navigate(['/login']);
   }
 
@@ -72,5 +79,9 @@ export class AuthService {
 
   getUserRoles(): string[] {
     return this.userRoles;
+  }
+
+  getUserId(): string {
+    return this.userId;
   }
 }
