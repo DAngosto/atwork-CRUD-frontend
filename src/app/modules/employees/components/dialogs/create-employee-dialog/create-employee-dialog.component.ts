@@ -72,17 +72,19 @@ export class CreateEmployeeDialogComponent implements OnInit {
       EmailUtils.isValidEmail(this.createEmployeeForm.get('email')?.value)
     ) {
       this.saveInProgress = true;
-      this.employeeService.createEmployee(this.getRegisterRequest()).subscribe({
-        next: (_data: Employee) => {
-          this.saveInProgress = false;
-          this.creationSuccesfully.emit(true);
-          this.showDialog.set(false);
-        },
-        error: (e: any) => {
-          console.log(e);
-          this.saveInProgress = false;
-        },
-      });
+      this.employeeService
+        .createEmployee(this.getCreateEmployeeRequest())
+        .subscribe({
+          next: (_data: Employee) => {
+            this.saveInProgress = false;
+            this.creationSuccesfully.emit(true);
+            this.showDialog.set(false);
+          },
+          error: (e: any) => {
+            console.log(e);
+            this.saveInProgress = false;
+          },
+        });
     }
   }
 
@@ -100,7 +102,7 @@ export class CreateEmployeeDialogComponent implements OnInit {
     });
   }
 
-  private getRegisterRequest(): CreateEmployeeRequest {
+  private getCreateEmployeeRequest(): CreateEmployeeRequest {
     return {
       userId: this.authService.getUserId(),
       firstName: this.createEmployeeForm.get('firstName')?.value,
