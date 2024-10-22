@@ -10,6 +10,7 @@ import { PrimeIcons } from 'primeng/api';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CreateEmployeeDialogComponent } from '../dialogs/create-employee-dialog/create-employee-dialog.component';
+import { EditEmployeeDialogComponent } from '../dialogs/edit-employee-dialog/edit-employee-dialog.component';
 
 @Component({
   selector: 'app-employees-page',
@@ -19,6 +20,7 @@ import { CreateEmployeeDialogComponent } from '../dialogs/create-employee-dialog
     SplitButtonModule,
     ToolbarModule,
     CreateEmployeeDialogComponent,
+    EditEmployeeDialogComponent,
   ],
   templateUrl: './employees-page.component.html',
   styleUrl: './employees-page.component.scss',
@@ -32,6 +34,8 @@ export class EmployeesPageComponent {
   public tableSelectionEnum = TableSelectionEnum;
   public selectedEmployees = signal<Employee[]>([]);
   public showCreateEmployeeDialog = signal<boolean>(false);
+  public showEditEmployeeDialog = signal<boolean>(false);
+  public employeeIdToEdit = '';
   public employeesTableColumns: TableColumn[] = [
     {
       name: 'Image',
@@ -72,7 +76,10 @@ export class EmployeesPageComponent {
     },
     {
       btnIcon: PrimeIcons.PENCIL,
-      btnActionFunction: (rowData: Employee) => {},
+      btnActionFunction: (rowData: Employee) => {
+        this.employeeIdToEdit = rowData.id;
+        this.showEditEmployeeDialog.set(true);
+      },
     },
     {
       btnIcon: PrimeIcons.TRASH,
@@ -97,5 +104,9 @@ export class EmployeesPageComponent {
 
   public onCreationSuccesfully(creationSuccesfully: any) {
     if (creationSuccesfully) this.employeesPaginatedTable?.refreshTable();
+  }
+
+  public onUpdateSuccesfully(updateSuccesfully: any) {
+    if (updateSuccesfully) this.employeesPaginatedTable?.refreshTable();
   }
 }

@@ -11,6 +11,7 @@ export interface Employee {
   address: string;
   lastCheckIn: Date;
   phone: string;
+  countryId: string;
   countryName: string;
   countryCode: string;
   pictureUrl?: string;

@@ -1,0 +1,166 @@
+<p-dialog
+  header="Edit Employee"
+  [(visible)]="showDialog"
+  [modal]="true"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="editEmployeeForm">
+    <div class="grid nested-grid pt-4">
+      <div class="col-12">
+        <div class="grid">
+          <div class="col-4">
+            <p-floatLabel>
+              <input
+                pInputText
+                id="firstName"
+                formControlName="firstName"
+                class="w-full"
+              />
+              <label for="firstName">Name</label>
+            </p-floatLabel>
+          </div>
+          <div class="col-4">
+            <p-floatLabel>
+              <input
+                pInputText
+                id="lastName"
+                formControlName="lastName"
+                class="w-full"
+              />
+              <label for="lastName">Last Name</label>
+            </p-floatLabel>
+          </div>
+          <div class="col-4">
+            <p-floatLabel>
+              <input
+                pInputText
+                id="secondLastName"
+                formControlName="secondLastName"
+                class="w-full"
+              />
+              <label for="secondLastName">Second Last Name</label>
+            </p-floatLabel>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="grid">
+          <div class="col-3">
+            <p-floatLabel>
+              <p-dropdown
+                appendTo="body"
+                [options]="countries()"
+                [loading]="countriesLoading()"
+                optionValue="id"
+                [filter]="true"
+                filterBy="name"
+                formControlName="country"
+                styleClass="w-full"
+                inputId="country"
+              >
+                <ng-template pTemplate="selectedItem" let-country>
+                  <div class="flex align-items-center gap-2">
+                    <img
+                      src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                      [class]="'flag flag-' + country.code.toLowerCase()"
+                      style="width: 20px"
+                    />
+                    <div>{{ country.name }}</div>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="item" let-country>
+                  <div class="flex align-items-center gap-2">
+                    <img
+                      src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                      [class]="'flag flag-' + country.code.toLowerCase()"
+                      style="width: 18px"
+                    />
+                    <div>{{ country.name }}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+              <label for="country">Select a Country</label>
+            </p-floatLabel>
+          </div>
+          <div class="col-9">
+            <p-floatLabel>
+              <input
+                pInputText
+                id="address"
+                formControlName="address"
+                class="w-full"
+              />
+              <label for="address">Address</label>
+            </p-floatLabel>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="grid">
+          <div class="col-3">
+            <p-floatLabel>
+              <p-inputMask
+                id="phone"
+                mask="999-999-999"
+                class="w-full mb-3"
+                formControlName="phone"
+                placeholder="999-999-999"
+                class="w-full"
+              />
+              <label for="phone">Phone</label>
+            </p-floatLabel>
+          </div>
+          <div class="col-9">
+            <p-floatLabel>
+              <input
+                pInputText
+                id="email"
+                formControlName="email"
+                class="w-full"
+              />
+              <label for="email">Email</label>
+            </p-floatLabel>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="grid">
+          <div class="col-3">
+            <p-floatLabel>
+              <input
+                pInputText
+                id="jobTitle"
+                formControlName="jobTitle"
+                class="w-full"
+              />
+              <label for="jobTitle">Job Title</label>
+            </p-floatLabel>
+          </div>
+          <div class="col-9">
+            <p-floatLabel>
+              <input
+                pInputText
+                id="pictureUrl"
+                formControlName="pictureUrl"
+                class="w-full"
+              />
+              <label for="pictureUrl">Employee Picture URL</label>
+            </p-floatLabel>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      [text]="true"
+      severity="secondary"
+      (onClick)="onCancel()"
+    />
+    <p-button label="Save" severity="primary" (onClick)="onSave()" />
+  </ng-template>
+</p-dialog>

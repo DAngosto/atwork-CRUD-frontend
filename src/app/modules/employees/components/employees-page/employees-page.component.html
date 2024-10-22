@@ -47,3 +47,11 @@
     (creationSuccesfully)="onCreationSuccesfully($event)"
   />
 }
+
+@if (showEditEmployeeDialog()) {
+  <app-edit-employee-dialog
+    [(showDialog)]="showEditEmployeeDialog"
+    [employeeIdToEdit]="employeeIdToEdit"
+    (updateSuccesfully)="onUpdateSuccesfully($event)"
+  />
+}
