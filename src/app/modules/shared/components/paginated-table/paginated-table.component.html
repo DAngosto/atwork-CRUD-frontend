@@ -1,6 +1,9 @@
+@if (loading()) {
+  <app-table-skeleton [columns]="columns()"></app-table-skeleton>
+}
 <p-table
+  [hidden]="loading()"
   [value]="items()"
-  [loading]="loading()"
   [paginator]="true"
   responsiveLayout="stack"
   [rows]="10"
@@ -12,11 +15,6 @@
   [lazy]="true"
   (onLazyLoad)="loadEntities($event)"
 >
-  <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
-      <p-button icon="pi pi-refresh" />
-    </div>
-  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       @if (tableSelection() === tableSelectionEnum.RADIOBUTTON) {

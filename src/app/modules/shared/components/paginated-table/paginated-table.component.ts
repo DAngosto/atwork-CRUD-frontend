@@ -18,11 +18,18 @@ import { TableRowActionLocationEnum } from '../../model/table-row-actions-locati
 import { TableSelectionEnum } from '../../model/table-selection.enum';
 import { TableColumnTypeEnum } from '../../model/table-column-type.enum';
 import { AvatarModule } from 'primeng/avatar';
+import { TableSkeletonComponent } from '../table-skeleton/table-skeleton.component';
 
 @Component({
   selector: 'app-paginated-table',
   standalone: true,
-  imports: [TableModule, CommonModule, ButtonModule, AvatarModule],
+  imports: [
+    TableModule,
+    CommonModule,
+    ButtonModule,
+    AvatarModule,
+    TableSkeletonComponent,
+  ],
   templateUrl: './paginated-table.component.html',
   styleUrl: './paginated-table.component.scss',
 })
