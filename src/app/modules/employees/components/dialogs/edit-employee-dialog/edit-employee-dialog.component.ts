@@ -18,7 +18,6 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { EmailUtils } from '../../../../../utils/email-utils';
 import { CountryService } from '../../../../shared/services/country.service';
@@ -37,7 +36,6 @@ import { MessageService } from 'primeng/api';
     InputTextModule,
     FloatLabelModule,
     DropdownModule,
-    InputMaskModule,
     ButtonModule,
   ],
   templateUrl: './edit-employee-dialog.component.html',

@@ -11,7 +11,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { RegisterRequest } from '../../../shared/model/requests/register-request';
-import { InputMaskModule } from 'primeng/inputmask';
 import { EmailUtils } from '../../../../utils/email-utils';
 
 @Component({
@@ -23,7 +22,6 @@ import { EmailUtils } from '../../../../utils/email-utils';
     ButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    InputMaskModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -70,10 +68,10 @@ export class RegisterComponent implements OnInit {
   //#region Private functions
   private initializeForm(): void {
     this.registerForm = this.fb.group({
-      email: ['test@gmail.com', Validators.required],
-      password: ['test', Validators.required],
-      company: ['test', Validators.required],
-      phone: ['123-456-789', Validators.required],
+      email: [undefined, Validators.required],
+      password: [undefined, Validators.required],
+      company: [undefined, Validators.required],
+      phone: [undefined, Validators.required],
     });
   }
 
