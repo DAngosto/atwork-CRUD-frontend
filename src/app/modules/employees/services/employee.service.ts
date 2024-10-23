@@ -11,12 +11,21 @@ import { UpdateEmployeeRequest } from '../model/requests/update-employee-request
   providedIn: 'root',
 })
 export class EmployeeService {
-  private backendUrl: string = environment.backendUrl;
+  //#region Services
   private httpClient: HttpClient = inject(HttpClient);
   private authService: AuthService = inject(AuthService);
+  //#endregion Services
+
+  //#region Signals
+  //#endregion Signals
+
+  //#region Properties
+  private backendUrl: string = environment.backendUrl;
+  //#endregion Properties
 
   constructor() {}
 
+  //#region Gets
   public getEmployee(employeeId: string): Observable<Employee> {
     return this.httpClient.get<Employee>(
       `${this.backendUrl}/Employees/?employeeId=${employeeId}`,
@@ -28,24 +37,31 @@ export class EmployeeService {
       `${this.backendUrl}/Employees/GetAllFromUser?userId=${this.authService.getUserId()}&page=${page}&size=${size}`,
     );
   }
+  //#endregion Gets
 
+  //#region Posts
   public createEmployee(request: CreateEmployeeRequest): Observable<Employee> {
     return this.httpClient.post<Employee>(
       `${this.backendUrl}/Employees`,
       request,
     );
   }
+  //#endregion Posts
 
+  //#region Puts
   public updateEmployee(request: UpdateEmployeeRequest): Observable<Employee> {
     return this.httpClient.put<Employee>(
       `${this.backendUrl}/Employees`,
       request,
     );
   }
+  //#endregion Puts
 
+  //#region Deletes
   public deleteEmployees(employeeIds: string[]): Observable<boolean> {
     return this.httpClient.delete<boolean>(`${this.backendUrl}/Employees`, {
       body: { employeeIds },
     });
   }
+  //#endregion Deletes
 }

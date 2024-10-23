@@ -43,30 +43,45 @@ import { Employee } from '../../../model/employee';
   styleUrl: './create-employee-dialog.component.scss',
 })
 export class CreateEmployeeDialogComponent implements OnInit {
+  //#region Services
   private fb: FormBuilder = inject(FormBuilder);
   private countryService: CountryService = inject(CountryService);
   private employeeService: EmployeeService = inject(EmployeeService);
   private authService: AuthService = inject(AuthService);
+  //#endregion Services
 
+  //#region Forms
   public createEmployeeForm!: FormGroup;
+  //#endregion Forms
+
+  //#region Signals
   public showDialog = model.required<boolean>();
   public countries = this.countryService.countries;
   public countriesLoading = this.countryService.countriesLoading;
+  //#endregion Signals
 
+  //#region Computed signals
+  //#endregion Computed signals
+
+  //#region Properties
   public saveInProgress = false;
   @Output() creationSuccesfully: EventEmitter<boolean> =
     new EventEmitter<boolean>();
+  //#endregion Properties
+
+  constructor() {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.countryService.getAllCountries();
   }
 
-  public onCancel() {
+  //#region Event handlers
+  public onCancel(): void {
     this.showDialog.set(false);
   }
 
-  public onSave() {
+  public onSave(): void {
     if (
       this.createEmployeeForm.valid &&
       EmailUtils.isValidEmail(this.createEmployeeForm.get('email')?.value)
@@ -87,7 +102,12 @@ export class CreateEmployeeDialogComponent implements OnInit {
         });
     }
   }
+  //#endregion Event handlers
 
+  //#region Public functions
+  //#endregion Public functions
+
+  //#region Private functions
   private initializeForm(): void {
     this.createEmployeeForm = this.fb.group({
       firstName: [undefined, Validators.required],
@@ -116,4 +136,5 @@ export class CreateEmployeeDialogComponent implements OnInit {
       pictureUrl: this.createEmployeeForm.get('pictureUrl')?.value,
     } as CreateEmployeeRequest;
   }
+  //#endregion Private functions
 }

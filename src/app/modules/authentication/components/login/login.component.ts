@@ -11,6 +11,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CardModule } from 'primeng/card';
+import { EmailUtils } from '../../../../utils/email-utils';
 
 @Component({
   selector: 'app-login',
@@ -22,15 +24,29 @@ import {
     ButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    CardModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  //#region Services
   private authService: AuthService = inject(AuthService);
   private fb: FormBuilder = inject(FormBuilder);
+  //#endregion Services
 
+  //#region Forms
   public signInForm!: FormGroup;
+  //#endregion Forms
+
+  //#region Signals
+  //#endregion Signals
+
+  //#region Computed signals
+  //#endregion Computed signals
+
+  //#region Properties
+  //#endregion Properties
 
   constructor() {}
 
@@ -38,10 +54,11 @@ export class LoginComponent implements OnInit {
     this.initializeForm();
   }
 
+  //#region Event handlers
   public onSignIn(): void {
     if (
       this.signInForm.valid &&
-      this.isValidEmail(this.signInForm.get('email')?.value)
+      EmailUtils.isValidEmail(this.signInForm.get('email')?.value)
     ) {
       this.authService.login(
         this.signInForm.get('email')?.value,
@@ -49,17 +66,17 @@ export class LoginComponent implements OnInit {
       );
     }
   }
+  //#endregion Event handlers
 
+  //#region Public functions
+  //#endregion Public functions
+
+  //#region Private functions
   private initializeForm(): void {
     this.signInForm = this.fb.group({
       email: ['test@gmail.com', Validators.required],
       password: ['string', Validators.required],
     });
   }
-
-  private isValidEmail(email: string): boolean {
-    const emailRegex =
-      /^(?=[A-Z])[A-Z0-9_\-\.]+@(?=(([A-Z0-9_\-]+\.)+))\1[A-Z]{2,4}$/i;
-    return emailRegex.test(email);
-  }
+  //#endregion Private functions
 }

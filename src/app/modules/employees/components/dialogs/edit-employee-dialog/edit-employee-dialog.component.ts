@@ -43,19 +43,33 @@ import { UpdateEmployeeRequest } from '../../../model/requests/update-employee-r
   styleUrl: './edit-employee-dialog.component.scss',
 })
 export class EditEmployeeDialogComponent implements OnInit {
+  //#region Services
   private fb: FormBuilder = inject(FormBuilder);
   private countryService: CountryService = inject(CountryService);
   private employeeService: EmployeeService = inject(EmployeeService);
+  //#endregion Services
 
+  //#region Forms
   public editEmployeeForm!: FormGroup;
+  //#endregion Forms
+
+  //#region Signals
   public showDialog = model.required<boolean>();
   public employeeIdToEdit = input.required<string>();
   public countries = this.countryService.countries;
   public countriesLoading = this.countryService.countriesLoading;
+  //#endregion Signals
 
+  //#region Computed signals
+  //#endregion Computed signals
+
+  //#region Properties
   public saveInProgress = false;
   @Output() updateSuccesfully: EventEmitter<boolean> =
     new EventEmitter<boolean>();
+  //#endregion Properties
+
+  constructor() {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -63,11 +77,12 @@ export class EditEmployeeDialogComponent implements OnInit {
     this.countryService.getAllCountries();
   }
 
-  public onCancel() {
+  //#region Event handlers
+  public onCancel(): void {
     this.showDialog.set(false);
   }
 
-  public onSave() {
+  public onSave(): void {
     if (
       this.editEmployeeForm.valid &&
       EmailUtils.isValidEmail(this.editEmployeeForm.get('email')?.value)
@@ -88,7 +103,12 @@ export class EditEmployeeDialogComponent implements OnInit {
         });
     }
   }
+  //#endregion Event handlers
 
+  //#region Public functions
+  //#endregion Public functions
+
+  //#region Private functions
   private initializeForm(): void {
     this.editEmployeeForm = this.fb.group({
       firstName: [undefined, Validators.required],
@@ -138,4 +158,5 @@ export class EditEmployeeDialogComponent implements OnInit {
       pictureUrl: this.editEmployeeForm.get('pictureUrl')?.value,
     } as UpdateEmployeeRequest;
   }
+  //#endregion Private functions
 }

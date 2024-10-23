@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { EmployeeService } from '../../services/employee.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Employee } from '../../model/employee';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { CardModule } from 'primeng/card';
 
 interface MockData {
   salary: string;
@@ -14,17 +15,34 @@ interface MockData {
 @Component({
   selector: 'app-employee-details-page',
   standalone: true,
-  imports: [TagModule, ButtonModule, RouterModule, ProgressBarModule],
+  imports: [
+    TagModule,
+    ButtonModule,
+    RouterModule,
+    ProgressBarModule,
+    CardModule,
+  ],
   templateUrl: './employee-details-page.component.html',
   styleUrl: './employee-details-page.component.scss',
 })
-export class EmployeeDetailsPageComponent {
+export class EmployeeDetailsPageComponent implements OnInit {
+  //#region Services
   public employeeService: EmployeeService = inject(EmployeeService);
   public activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  //#endregion Services
 
+  //#region Forms
+  //#endregion Forms
+
+  //#region Signals
+  //#endregion Signals
+
+  //#region Computed signals
+  //#endregion Computed signals
+
+  //#region Properties
   public employeeData?: Employee;
   public employeeDataMocked?: MockData;
-
   private skills: string[] = [
     'JavaScript',
     'TypeScript',
@@ -98,12 +116,42 @@ export class EmployeeDetailsPageComponent {
     'Active Listening',
     'Influencing',
   ];
+  //#endregion Properties
+
+  constructor() {}
 
   ngOnInit(): void {
     this.initializeMockData();
     this.getEmployeeData();
   }
 
+  //#region Event handlers
+  //#endregion Event handlers
+
+  //#region Public functions
+  public getWellnessScoreColor(): string {
+    const value = this.employeeData?.wellnessScore ?? 0;
+    if (value <= 40) {
+      return 'lightcoral';
+    } else if (value > 40 && value <= 70) {
+      return 'lightsalmon';
+    } else {
+      return 'lightgreen';
+    }
+  }
+  public getProductivityScoreColor(): string {
+    const value = this.employeeData?.wellnessScore ?? 0;
+    if (value <= 40) {
+      return 'lightcoral';
+    } else if (value > 40 && value <= 70) {
+      return 'lightsalmon';
+    } else {
+      return 'lightgreen';
+    }
+  }
+  //#endregion Public functions
+
+  //#region Private functions
   private initializeMockData(): void {
     this.employeeDataMocked = {
       salary: '150.000',
@@ -129,25 +177,5 @@ export class EmployeeDetailsPageComponent {
     const shuffledSkills = this.skills.sort(() => Math.random() - 0.5);
     return shuffledSkills.slice(0, numOfSkills);
   }
-
-  public getWellnessScoreColor(): string {
-    const value = this.employeeData?.wellnessScore ?? 0;
-    if (value <= 40) {
-      return 'lightcoral';
-    } else if (value > 40 && value <= 70) {
-      return 'lightsalmon';
-    } else {
-      return 'lightgreen';
-    }
-  }
-  public getProductivityScoreColor(): string {
-    const value = this.employeeData?.wellnessScore ?? 0;
-    if (value <= 40) {
-      return 'lightcoral';
-    } else if (value > 40 && value <= 70) {
-      return 'lightsalmon';
-    } else {
-      return 'lightgreen';
-    }
-  }
+  //#endregion Private functions
 }

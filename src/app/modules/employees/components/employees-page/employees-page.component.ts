@@ -12,6 +12,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { CreateEmployeeDialogComponent } from '../dialogs/create-employee-dialog/create-employee-dialog.component';
 import { EditEmployeeDialogComponent } from '../dialogs/edit-employee-dialog/edit-employee-dialog.component';
 import { Router } from '@angular/router';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-employees-page',
@@ -22,22 +23,37 @@ import { Router } from '@angular/router';
     ToolbarModule,
     CreateEmployeeDialogComponent,
     EditEmployeeDialogComponent,
+    CardModule,
   ],
   templateUrl: './employees-page.component.html',
   styleUrl: './employees-page.component.scss',
 })
 export class EmployeesPageComponent {
+  //#region Services
   public employeeService: EmployeeService = inject(EmployeeService);
   public confirmationService: ConfirmationService = inject(ConfirmationService);
   public router: Router = inject(Router);
+  //#endregion Services
 
-  @ViewChild('employeesPaginatedTable')
-  employeesPaginatedTable?: PaginatedTableComponent;
+  //#region Forms
+  //#endregion Forms
 
+  //#region Enums
   public tableSelectionEnum = TableSelectionEnum;
+  //#endregion Enums
+
+  //#region Signals
   public selectedEmployees = signal<Employee[]>([]);
   public showCreateEmployeeDialog = signal<boolean>(false);
   public showEditEmployeeDialog = signal<boolean>(false);
+  //#endregion Signals
+
+  //#region Computed signals
+  //#endregion Computed signals
+
+  //#region Properties
+  @ViewChild('employeesPaginatedTable')
+  employeesPaginatedTable?: PaginatedTableComponent;
   public employeeIdToEdit = '';
   public employeesTableColumns: TableColumn[] = [
     {
@@ -105,12 +121,16 @@ export class EmployeesPageComponent {
       },
     },
   ];
+  //#endregion Properties
 
-  public onNew() {
+  constructor() {}
+
+  //#region Event handlers
+  public onNew(): void {
     this.showCreateEmployeeDialog.set(true);
   }
 
-  public onDelete() {
+  public onDelete(): void {
     this.confirmationService.confirm({
       message: `Do you want to delete selected employees?`,
       header: 'Delete Confirmation',
@@ -126,14 +146,19 @@ export class EmployeesPageComponent {
     });
   }
 
-  public onCreationSuccesfully(creationSuccesfully: any) {
+  public onCreationSuccesfully(creationSuccesfully: any): void {
     if (creationSuccesfully) this.employeesPaginatedTable?.refreshTable();
   }
 
-  public onUpdateSuccesfully(updateSuccesfully: any) {
+  public onUpdateSuccesfully(updateSuccesfully: any): void {
     if (updateSuccesfully) this.employeesPaginatedTable?.refreshTable();
   }
+  //#endregion Event handlers
 
+  //#region Public functions
+  //#endregion Public functions
+
+  //#region Private functions
   private deleteEmployees(employeeIds: string[]): void {
     this.employeeService.deleteEmployees(employeeIds).subscribe({
       next: (_data: boolean) => {
@@ -144,4 +169,5 @@ export class EmployeesPageComponent {
       },
     });
   }
+  //#endregion Private functions
 }

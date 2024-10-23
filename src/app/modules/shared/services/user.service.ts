@@ -8,14 +8,33 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class UserService {
-  private backendUrl: string = environment.backendUrl;
+  //#region Services
   private httpClient: HttpClient = inject(HttpClient);
+  //#endregion Services
+
+  //#region Signals
+  //#endregion Signals
+
+  //#region Properties
+  private backendUrl: string = environment.backendUrl;
+  //#endregion Properties
 
   constructor() {}
 
+  //#region Gets
   public getUserData(userId: string): Observable<User> {
     return this.httpClient.get<User>(
       `${this.backendUrl}/Users/?userId=${userId}`,
     );
   }
+  //#endregion Gets
+
+  //#region Posts
+  //#endregion Posts
+
+  //#region Puts
+  //#endregion Puts
+
+  //#region Deletes
+  //#endregion Deletes
 }

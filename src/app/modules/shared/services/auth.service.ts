@@ -11,13 +11,20 @@ import { Register } from '../model/register';
   providedIn: 'root',
 })
 export class AuthService {
+  //#region Services
+  private httpClient: HttpClient = inject(HttpClient);
+  private router: Router = inject(Router);
+  //#endregion Services
+
+  //#region Signals
+  //#endregion Signals
+
+  //#region Properties
+  private backendUrl: string = environment.backendUrl;
   private loggedIn: boolean = localStorage.getItem('userToken') !== null;
   private userId: string = localStorage.getItem('userId') ?? '';
   private userRoles: string[] = [];
-
-  private backendUrl: string = environment.backendUrl;
-  private httpClient: HttpClient = inject(HttpClient);
-  private router: Router = inject(Router);
+  //#endregion Properties
 
   constructor() {}
 
@@ -65,23 +72,23 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  isLoggedIn(): boolean {
+  public isLoggedIn(): boolean {
     return this.loggedIn;
   }
 
-  hasRole(role: string): boolean {
+  public hasRole(role: string): boolean {
     return this.userRoles.includes(role);
   }
 
-  hasAnyRole(roles: string[]): boolean {
+  public hasAnyRole(roles: string[]): boolean {
     return roles.some((role) => this.userRoles.includes(role));
   }
 
-  getUserRoles(): string[] {
+  public getUserRoles(): string[] {
     return this.userRoles;
   }
 
-  getUserId(): string {
+  public getUserId(): string {
     return this.userId;
   }
 }

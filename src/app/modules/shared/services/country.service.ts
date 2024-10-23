@@ -7,14 +7,22 @@ import { Country } from '../model/country';
   providedIn: 'root',
 })
 export class CountryService {
-  private backendUrl: string = environment.backendUrl;
+  //#region Services
   private httpClient: HttpClient = inject(HttpClient);
+  //#endregion Services
 
+  //#region Signals
   public countries = signal<Country[]>([]);
   public countriesLoading = signal<boolean>(false);
+  //#endregion Signals
+
+  //#region Properties
+  private backendUrl: string = environment.backendUrl;
+  //#endregion Properties
 
   constructor() {}
 
+  //#region Gets
   public getAllCountries() {
     this.countriesLoading.set(true);
     this.httpClient
@@ -30,4 +38,14 @@ export class CountryService {
         },
       });
   }
+  //#endregion Gets
+
+  //#region Posts
+  //#endregion Posts
+
+  //#region Puts
+  //#endregion Puts
+
+  //#region Deletes
+  //#endregion Deletes
 }

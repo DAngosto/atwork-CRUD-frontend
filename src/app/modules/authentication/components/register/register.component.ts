@@ -29,10 +29,23 @@ import { EmailUtils } from '../../../../utils/email-utils';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
+  //#region Services
   private authService: AuthService = inject(AuthService);
   private fb: FormBuilder = inject(FormBuilder);
+  //#endregion Services
 
+  //#region Forms
   public registerForm!: FormGroup;
+  //#endregion Forms
+
+  //#region Signals
+  //#endregion Signals
+
+  //#region Computed signals
+  //#endregion Computed signals
+
+  //#region Properties
+  //#endregion Properties
 
   constructor() {}
 
@@ -40,6 +53,7 @@ export class RegisterComponent implements OnInit {
     this.initializeForm();
   }
 
+  //#region Event handlers
   public onCreate(): void {
     if (
       this.registerForm.valid &&
@@ -48,7 +62,12 @@ export class RegisterComponent implements OnInit {
       this.authService.register(this.getRegisterRequest());
     }
   }
+  //#endregion Event handlers
 
+  //#region Public functions
+  //#endregion Public functions
+
+  //#region Private functions
   private initializeForm(): void {
     this.registerForm = this.fb.group({
       email: ['test@gmail.com', Validators.required],
@@ -66,4 +85,5 @@ export class RegisterComponent implements OnInit {
       phone: this.registerForm.get('phone')?.value,
     } as RegisterRequest;
   }
+  //#endregion Private functions
 }

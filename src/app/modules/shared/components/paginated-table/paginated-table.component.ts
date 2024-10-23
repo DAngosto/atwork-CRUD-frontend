@@ -34,17 +34,11 @@ import { TableSkeletonComponent } from '../table-skeleton/table-skeleton.compone
   styleUrl: './paginated-table.component.scss',
 })
 export class PaginatedTableComponent implements OnDestroy {
-  //#region Properties
-  private subscriptions: Subscription[] = [];
-  private _selectedItems!: any[];
-  get selectedItems(): any[] {
-    return this._selectedItems;
-  }
-  set selectedItems(values: any[]) {
-    this._selectedItems = values;
-    this.onSelectedItemsChange();
-  }
-  //#endregion Properties
+  //#region Services
+  //#endregion Services
+
+  //#region Forms
+  //#endregion Forms
 
   //#region Enums
   public rowActionLocationEnum = TableRowActionLocationEnum;
@@ -69,7 +63,7 @@ export class PaginatedTableComponent implements OnDestroy {
   public totalPages: WritableSignal<number> = signal(0);
   //#endregion Signals
 
-  //#region Computed Signals
+  //#region Computed signals
   public selectionMode = computed(() => {
     switch (this.tableSelection()) {
       case this.tableSelectionEnum.SINGLE: {
@@ -83,7 +77,19 @@ export class PaginatedTableComponent implements OnDestroy {
       }
     }
   });
-  //#endregion Computed Signals
+  //#endregion Computed signals
+
+  //#region Properties
+  private subscriptions: Subscription[] = [];
+  private _selectedItems!: any[];
+  get selectedItems(): any[] {
+    return this._selectedItems;
+  }
+  set selectedItems(values: any[]) {
+    this._selectedItems = values;
+    this.onSelectedItemsChange();
+  }
+  //#endregion Properties
 
   constructor() {}
 
@@ -93,7 +99,7 @@ export class PaginatedTableComponent implements OnDestroy {
     });
   }
 
-  //#region Public
+  //#region Event handlers
   public onBtnVisibleFunction(rowAction: TableRowAction, rowData: any): string {
     if (
       rowAction.btnIsVisibleFunction &&
@@ -104,11 +110,11 @@ export class PaginatedTableComponent implements OnDestroy {
     return '';
   }
 
-  public onRowActionClick(rowAction: TableRowAction, rowData: any) {
+  public onRowActionClick(rowAction: TableRowAction, rowData: any): void {
     if (rowAction.btnActionFunction) rowAction.btnActionFunction(rowData);
   }
 
-  public loadEntities(event: TableLazyLoadEvent) {
+  public loadEntities(event: TableLazyLoadEvent): void {
     this.actualPage.set(event.first! / event.rows! + 1);
     this.loadData();
   }
@@ -116,10 +122,13 @@ export class PaginatedTableComponent implements OnDestroy {
   public refreshTable(): void {
     this.loadData();
   }
-  //#endregion Public
+  //#endregion Event handlers
 
-  //#region Private
-  private loadData() {
+  //#region Public functions
+  //#endregion Public functions
+
+  //#region Private functions
+  private loadData(): void {
     this.loading.set(true);
     if (this.fetchMethod()) {
       this.subscriptions.push(
@@ -142,7 +151,7 @@ export class PaginatedTableComponent implements OnDestroy {
     }
   }
 
-  private onSelectedItemsChange() {
+  private onSelectedItemsChange(): void {
     if (
       this.tableSelection() === this.tableSelectionEnum.SINGLE ||
       this.tableSelection() === this.tableSelectionEnum.RADIOBUTTON
@@ -152,5 +161,5 @@ export class PaginatedTableComponent implements OnDestroy {
       this.selectedRowDatas.set(this.selectedItems);
     }
   }
-  //#endregion Private
+  //#endregion Private functions
 }
