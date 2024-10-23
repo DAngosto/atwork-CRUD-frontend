@@ -5,6 +5,7 @@ import { RegisterComponent } from './modules/authentication/components/register/
 import { UnauthorizedComponent } from './modules/shared/components/unauthorized/unauthorized.component';
 import { EmployeesPageComponent } from './modules/employees/components/employees-page/employees-page.component';
 import { DashboardComponent } from './modules/dashboard/components/dashboard.component';
+import { EmployeeDetailsPageComponent } from './modules/employees/components/employee-details-page/employee-details-page.component';
 
 export const routes: Routes = [
   {
@@ -17,7 +18,10 @@ export const routes: Routes = [
     path: 'employees',
     canActivate: [AuthenticationGuard],
     canActivateChild: [AuthenticationGuard],
-    children: [{ path: '', component: EmployeesPageComponent }],
+    children: [
+      { path: '', component: EmployeesPageComponent },
+      { path: ':id', component: EmployeeDetailsPageComponent },
+    ],
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

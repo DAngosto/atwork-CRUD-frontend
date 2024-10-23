@@ -1,0 +1,125 @@
+<div class="surface-card p-4 shadow-2 border-round">
+  <div
+    class="mb-3 flex flex-column md:flex-row md:align-items-center md:justify-content-between"
+  >
+    <div class="flex gap-3">
+      <p-button
+        label="Return"
+        icon="pi pi-angle-left"
+        outlined="true"
+        rounded="true"
+        [routerLink]="['/employees']"
+      />
+    </div>
+  </div>
+  <div class="font-medium text-3xl text-900 mb-3">Employee Profile</div>
+  <div class="grid nested-grid border-top-1 border-300">
+    <div class="col-12">
+      <div class="grid">
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Name</span>
+        </div>
+        <div class="col-4 py-3 px-2">
+          <span class="text-900 w-full md:w-10">{{
+            employeeData?.fullName
+          }}</span>
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Email</span>
+        </div>
+        <div class="col-4 py-3 px-2">
+          <span class="text-900 w-full md:w-10">{{ employeeData?.email }}</span>
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Country</span>
+        </div>
+        <div class="col-4 py-3 px-2">
+          <div class="flex align-items-center gap-2">
+            <img
+              src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+              [class]="'flag flag-' + employeeData?.countryCode?.toLowerCase()"
+              style="width: 20px"
+            />
+            <span class="text-900 w-full md:w-10">{{
+              employeeData?.countryName
+            }}</span>
+          </div>
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Address</span>
+        </div>
+        <div class="col-4 py-3 px-2">
+          <span class="text-900 w-full md:w-10">{{
+            employeeData?.address
+          }}</span>
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Phone</span>
+        </div>
+        <div class="col-4 py-3 px-2">
+          <span class="text-900 w-full md:w-10">{{ employeeData?.phone }}</span>
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Job Title</span>
+        </div>
+        <div class="col-4 py-3 px-2">
+          <span class="text-900 w-full md:w-10">{{
+            employeeData?.jobTitle
+          }}</span>
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Salary</span>
+        </div>
+        <div class="col-4 py-3 px-2">
+          <span class="text-900 w-full md:w-10"
+            >${{ employeeDataMocked?.salary }}
+          </span>
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Skills</span>
+        </div>
+        <div class="flex flex-wrap col-4 py-3 px-2 gap-2">
+          @for (skill of employeeDataMocked?.skills; track $index) {
+            <p-tag [value]="skill" [rounded]="true" />
+          }
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Wellness Score</span>
+        </div>
+        <div class="col-4 py-3 px-2">
+          <p-progressBar
+            [value]="employeeData?.wellnessScore"
+            [color]="getWellnessScoreColor()"
+          >
+            <ng-template pTemplate="content" let-value>
+              <span>{{ value }}/100</span>
+            </ng-template>
+          </p-progressBar>
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium"
+            >Productivity Score</span
+          >
+        </div>
+        <div class="col-4 py-3 px-2">
+          <p-progressBar
+            [value]="employeeData?.productivityScore"
+            [color]="getProductivityScoreColor()"
+          >
+            <ng-template pTemplate="content" let-value>
+              <span>{{ value }}/100</span>
+            </ng-template>
+          </p-progressBar>
+        </div>
+        <div class="col-2 py-3 px-2">
+          <span class="text-500 w-full md:w-2 font-medium">Picture URL</span>
+        </div>
+        <div class="col-10 py-3 px-2">
+          <span class="text-900 w-full md:w-10"
+            >{{ employeeData?.pictureUrl }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -9,7 +9,6 @@ export interface Employee {
   wellnessScore: number;
   productivityScore: number;
   address: string;
-  lastCheckIn: Date;
   phone: string;
   countryId: string;
   countryName: string;

@@ -11,6 +11,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CreateEmployeeDialogComponent } from '../dialogs/create-employee-dialog/create-employee-dialog.component';
 import { EditEmployeeDialogComponent } from '../dialogs/edit-employee-dialog/edit-employee-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employees-page',
@@ -28,6 +29,7 @@ import { EditEmployeeDialogComponent } from '../dialogs/edit-employee-dialog/edi
 export class EmployeesPageComponent {
   public employeeService: EmployeeService = inject(EmployeeService);
   public confirmationService: ConfirmationService = inject(ConfirmationService);
+  public router: Router = inject(Router);
 
   @ViewChild('employeesPaginatedTable')
   employeesPaginatedTable?: PaginatedTableComponent;
@@ -73,7 +75,9 @@ export class EmployeesPageComponent {
   public employeesTableRowActions: TableRowAction[] = [
     {
       btnIcon: PrimeIcons.EYE,
-      btnActionFunction: (rowData: Employee) => {},
+      btnActionFunction: (rowData: Employee) => {
+        this.router.navigate(['/employees', rowData.id]);
+      },
     },
     {
       btnIcon: PrimeIcons.PENCIL,

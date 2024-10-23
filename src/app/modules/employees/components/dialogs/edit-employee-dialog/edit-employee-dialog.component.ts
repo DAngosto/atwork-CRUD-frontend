@@ -21,7 +21,6 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { EmailUtils } from '../../../../../utils/email-utils';
-import { AuthService } from '../../../../shared/services/auth.service';
 import { CountryService } from '../../../../shared/services/country.service';
 import { Employee } from '../../../model/employee';
 import { EmployeeService } from '../../../services/employee.service';
@@ -47,7 +46,6 @@ export class EditEmployeeDialogComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private countryService: CountryService = inject(CountryService);
   private employeeService: EmployeeService = inject(EmployeeService);
-  private authService: AuthService = inject(AuthService);
 
   public editEmployeeForm!: FormGroup;
   public showDialog = model.required<boolean>();
@@ -61,7 +59,7 @@ export class EditEmployeeDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.getEmployeeInfo();
+    this.getEmployeeData();
     this.countryService.getAllCountries();
   }
 
@@ -105,7 +103,7 @@ export class EditEmployeeDialogComponent implements OnInit {
     });
   }
 
-  private getEmployeeInfo(): void {
+  private getEmployeeData(): void {
     this.employeeService.getEmployee(this.employeeIdToEdit()).subscribe({
       next: (data: Employee) => {
         this.editEmployeeForm.patchValue({
