@@ -6,7 +6,7 @@ import { TableColumnTypeEnum } from '../../../shared/model/table-column-type.enu
 import { TableSelectionEnum } from '../../../shared/model/table-selection.enum';
 import { Employee } from '../../model/employee';
 import { TableRowAction } from '../../../shared/model/table-row-action';
-import { ConfirmationService, PrimeIcons } from 'primeng/api';
+import { ConfirmationService, MessageService, PrimeIcons } from 'primeng/api';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CreateEmployeeDialogComponent } from '../dialogs/create-employee-dialog/create-employee-dialog.component';
@@ -33,6 +33,7 @@ export class EmployeesPageComponent {
   public employeeService: EmployeeService = inject(EmployeeService);
   public confirmationService: ConfirmationService = inject(ConfirmationService);
   public router: Router = inject(Router);
+  public messageService: MessageService = inject(MessageService);
   //#endregion Services
 
   //#region Forms
@@ -163,6 +164,12 @@ export class EmployeesPageComponent {
     this.employeeService.deleteEmployees(employeeIds).subscribe({
       next: (_data: boolean) => {
         this.employeesPaginatedTable?.refreshTable();
+        this.messageService.add({
+          severity: 'success',
+          summary: `${employeeIds.length > 1 ? 'Employees' : 'Employee'} Deleted`,
+          detail: `${employeeIds.length > 1 ? 'Employees were' : 'Employee was'} deleted succesfully`,
+          life: 3000,
+        });
       },
       error: (e: any) => {
         console.log(e);

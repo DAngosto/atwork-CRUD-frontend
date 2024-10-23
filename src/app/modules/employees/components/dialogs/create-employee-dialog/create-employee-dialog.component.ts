@@ -25,6 +25,7 @@ import { EmployeeService } from '../../../services/employee.service';
 import { CreateEmployeeRequest } from '../../../model/requests/create-employee-request';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { Employee } from '../../../model/employee';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-create-employee-dialog',
@@ -48,6 +49,7 @@ export class CreateEmployeeDialogComponent implements OnInit {
   private countryService: CountryService = inject(CountryService);
   private employeeService: EmployeeService = inject(EmployeeService);
   private authService: AuthService = inject(AuthService);
+  private messageService: MessageService = inject(MessageService);
   //#endregion Services
 
   //#region Forms
@@ -93,6 +95,12 @@ export class CreateEmployeeDialogComponent implements OnInit {
           next: (_data: Employee) => {
             this.saveInProgress = false;
             this.creationSuccesfully.emit(true);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Employee created',
+              detail: 'Employee was created succesfully',
+              life: 3000,
+            });
             this.showDialog.set(false);
           },
           error: (e: any) => {

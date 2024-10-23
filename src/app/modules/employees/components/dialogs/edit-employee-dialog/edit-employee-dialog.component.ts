@@ -25,6 +25,7 @@ import { CountryService } from '../../../../shared/services/country.service';
 import { Employee } from '../../../model/employee';
 import { EmployeeService } from '../../../services/employee.service';
 import { UpdateEmployeeRequest } from '../../../model/requests/update-employee-request';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-edit-employee-dialog',
@@ -47,6 +48,7 @@ export class EditEmployeeDialogComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private countryService: CountryService = inject(CountryService);
   private employeeService: EmployeeService = inject(EmployeeService);
+  private messageService: MessageService = inject(MessageService);
   //#endregion Services
 
   //#region Forms
@@ -94,6 +96,12 @@ export class EditEmployeeDialogComponent implements OnInit {
           next: (_data: Employee) => {
             this.saveInProgress = false;
             this.updateSuccesfully.emit(true);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Employee updated',
+              detail: 'Employee was updated succesfully',
+              life: 3000,
+            });
             this.showDialog.set(false);
           },
           error: (e: any) => {
