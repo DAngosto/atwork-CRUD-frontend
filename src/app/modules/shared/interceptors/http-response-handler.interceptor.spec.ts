@@ -1,14 +1,29 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpResponseHandlerInterceptor } from './http-response-handler.interceptor';
+import { MessageService } from 'primeng/api';
 
-import { httpResponseHandlerInterceptor } from './http-response-handler.interceptor';
+class MockSomeService {}
 
-describe('httpResponseHandlerInterceptor', () => {
-  const interceptor: HttpInterceptorFn = (req, next) => 
-    TestBed.runInInjectionContext(() => httpResponseHandlerInterceptor(req, next));
+describe('HttpResponseHandlerInterceptor', () => {
+  let interceptor: HttpResponseHandlerInterceptor;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: HttpResponseHandlerInterceptor,
+          multi: true,
+        },
+        { provide: MockSomeService, useClass: MockSomeService },
+        MessageService,
+      ],
+    });
+
+    interceptor = TestBed.inject(
+      HTTP_INTERCEPTORS,
+    ) as unknown as HttpResponseHandlerInterceptor;
   });
 
   it('should be created', () => {
