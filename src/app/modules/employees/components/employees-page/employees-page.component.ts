@@ -115,7 +115,20 @@ export class EmployeesPageComponent {
           acceptIcon: 'none',
           rejectIcon: 'none',
           accept: () => {
-            this.deleteEmployees([rowData.id]);
+            this.employeeService.deleteEmployee(rowData.id).subscribe({
+              next: (_data: boolean) => {
+                this.employeesPaginatedTable?.refreshTable();
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Employee Deleted',
+                  detail: 'Employee was deleted succesfully',
+                  life: 3000,
+                });
+              },
+              error: (e: any) => {
+                console.log(e);
+              },
+            });
           },
           reject: () => {},
         });
@@ -141,7 +154,21 @@ export class EmployeesPageComponent {
       acceptIcon: 'none',
       rejectIcon: 'none',
       accept: () => {
-        this.deleteEmployees(this.selectedEmployees().map((x) => x.id));
+        const employeeIds = this.selectedEmployees().map((x) => x.id);
+        this.employeeService.deleteEmployees(employeeIds).subscribe({
+          next: (_data: boolean) => {
+            this.employeesPaginatedTable?.refreshTable();
+            this.messageService.add({
+              severity: 'success',
+              summary: `${employeeIds.length > 1 ? 'Employees' : 'Employee'} Deleted`,
+              detail: `${employeeIds.length > 1 ? 'Employees were' : 'Employee was'} deleted succesfully`,
+              life: 3000,
+            });
+          },
+          error: (e: any) => {
+            console.log(e);
+          },
+        });
       },
       reject: () => {},
     });
@@ -160,21 +187,5 @@ export class EmployeesPageComponent {
   //#endregion Public functions
 
   //#region Private functions
-  private deleteEmployees(employeeIds: string[]): void {
-    this.employeeService.deleteEmployees(employeeIds).subscribe({
-      next: (_data: boolean) => {
-        this.employeesPaginatedTable?.refreshTable();
-        this.messageService.add({
-          severity: 'success',
-          summary: `${employeeIds.length > 1 ? 'Employees' : 'Employee'} Deleted`,
-          detail: `${employeeIds.length > 1 ? 'Employees were' : 'Employee was'} deleted succesfully`,
-          life: 3000,
-        });
-      },
-      error: (e: any) => {
-        console.log(e);
-      },
-    });
-  }
   //#endregion Private functions
 }

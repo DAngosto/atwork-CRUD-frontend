@@ -46,6 +46,15 @@ export class EmployeeService {
       request,
     );
   }
+
+  public deleteEmployees(employeeIds: string[]): Observable<boolean> {
+    return this.httpClient.post<boolean>(
+      `${this.backendUrl}/Employees/DeleteEmployees`,
+      {
+        EmployeeIds: employeeIds,
+      },
+    );
+  }
   //#endregion Posts
 
   //#region Puts
@@ -58,10 +67,10 @@ export class EmployeeService {
   //#endregion Puts
 
   //#region Deletes
-  public deleteEmployees(employeeIds: string[]): Observable<boolean> {
-    return this.httpClient.delete<boolean>(`${this.backendUrl}/Employees`, {
-      body: { employeeIds },
-    });
+  public deleteEmployee(employeeId: string): Observable<boolean> {
+    return this.httpClient.delete<boolean>(
+      `${this.backendUrl}/Employees?employeeId=${employeeId}`,
+    );
   }
   //#endregion Deletes
 }
