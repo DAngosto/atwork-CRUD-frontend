@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
   }
 
   //#region Event handlers
-  public onCreate(): void {
+  public onRegister(): void {
     if (
       this.registerForm.valid &&
       EmailUtils.isValidEmail(this.registerForm.get('email')?.value)
