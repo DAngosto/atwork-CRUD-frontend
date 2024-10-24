@@ -79,7 +79,10 @@
               styleClass="mr-2"
             />
           }
-          <span class="font-medium">{{ userData?.email }}</span>
+          <span
+            class="font-medium overflow-hidden whitespace-nowrap text-overflow-ellipsis"
+            >{{ userData?.email }}</span
+          >
         </a>
       </div>
     </div>
