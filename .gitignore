@@ -40,3 +40,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Paywright files
+e2e/test-results/*
+e2e/test-results-report/*
